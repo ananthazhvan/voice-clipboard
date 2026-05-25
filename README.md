@@ -30,10 +30,12 @@ Copy `.env.example` to `.env` and paste your Groq API key:
 GROQ_API_KEY=your_api_key_here
 ```
 
-3. **Run the Server:**
+3. **Generate SSL Certificate and Run the Server:**
+Microphone access in modern browsers requires an HTTPS connection. You can generate a free self-signed certificate and run the server like this:
 ```bash
 source venv/bin/activate
-uvicorn src.main:app --host 0.0.0.0 --port 5000
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 365 -nodes -subj '/CN=localhost'
+uvicorn src.main:app --host 0.0.0.0 --port 5000 --ssl-keyfile=key.pem --ssl-certfile=cert.pem
 ```
 
 ## How to Use It
