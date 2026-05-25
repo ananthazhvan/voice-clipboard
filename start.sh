@@ -6,6 +6,11 @@ cd ~/Projects/voice-clipboard
 # Activate virtual environment
 source venv/bin/activate
 
+# Failsafe: kill any existing process running on port 5000 to prevent Address Already in Use errors
+echo "Checking for old server instances..."
+fuser -k 5000/tcp 2>/dev/null
+sleep 1
+
 # Get the local IP address on the hotspot network
 LOCAL_IP=$(ip addr | grep 'inet ' | awk '{print $2}' | cut -d/ -f1 | grep -v '127.0.0.1' | head -n 1)
 
